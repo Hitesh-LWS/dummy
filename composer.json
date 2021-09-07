@@ -1,0 +1,32 @@
+{
+    "name": "faveo/installer",
+    "description": "Classic Installer to install the all dependancies",
+    "license": "MIT",
+    "autoload": {
+        "classmap": [
+            "Database/seeders",
+            "Database/factories"
+        ],
+        "psr-4": {
+            "Faveo\\Installer\\": "Faveo/Installer/src/",
+            "App\\": "app/"
+        },
+        "files": [
+            "Faveo/Installer/src/Helpers/functions.php",
+            "Faveo/Installer/src/script/apl_core_functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Faveo\\Installer\\": "Faveo/Installer/src/",
+            "Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Hitesh Kumar",
+            "email": "hitesh.kumar@ladybirdweb.com"
+        }
+    ],
+    "require": {}
+}
