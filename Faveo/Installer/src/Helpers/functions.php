@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
@@ -51,36 +52,46 @@ function isWhiteLabelEnabled()
 
 
 /**
- * make sure this feature is enabled or not in env
- * customize user registration code according to application
- * @param $request
- * @return Exception
- * @author Hitesh Kumar <Hitesh.kumar@ladybirdweb.com>
- */
-function createUserForInstaller($request)
-{
-    try {
-
-dd('h');
-    } catch (Exception $exception) {
-        Log::error($exception);
-        return $exception;
-    }
-}
-
-
-/**
  * customize validation rule for user registration with installer
  * @return array
  * @author Hitesh Kumar <Hitesh.kumar@ladybirdweb.com>
  */
 function validationForCreateUserInstaller()
 {
+    /* defined all the validation rules here to validate user registration form*/
+    return [
+        'f_name' => 'required',
+        'l_name' => 'required'
+    ];
+}
+
+/**
+ * make sure this feature is enabled or not in env
+ * customize user registration code according to application
+ * @param $request
+ * @return RedirectResponse|void
+ */
+function createUserForInstaller($request)
+{
     try {
-      dd('yha');
+        $user = new \App\Models\User();
+        $user->name = $request->f_name . ' ' . $request->l_name;
+        $user->email = 'info@ladybirdweb.com';
+        $user->password = bcrypt('123456');
+        $user->save();
+
+        /*
+         *
+         * write user registration logic here
+         *
+         * */
+
+        /* return true if user registration process is done or successfully registered */
+        return redirect()->route('LaravelInstaller::license-code');
     } catch (Exception $exception) {
         Log::error($exception);
-        return [];
+        /* return false if user registration process is failed to registered */
+        return redirect()->back()->with('errors', 'Please entered right details');
     }
 }
 
@@ -90,28 +101,38 @@ function validationForCreateUserInstaller()
  * @return array
  * @author Hitesh Kumar <Hitesh.kumar@ladybirdweb.com>
  */
-function validationRulesForLicenseCode(){
-    try {
-        return [
-
-        ];
-    } catch (Exception $exception) {
-        Log::error($exception);
-        return [];
-    }
+function validationRulesForLicenseCode()
+{
+    /* defined all the validation rules here to validate license-code form*/
+    return [
+        'first_key' => 'required',
+        'second_key' => 'required',
+        'third_key' => 'required',
+        'fourth_key' => 'required'
+    ];
 }
 
 /**
  * write your custom logic here to validate license-code or serial key
  * make sure you enabled this feature in env
- * @return Exception
+ * @return RedirectResponse
  */
-function validateLicenseCodeOfUser(){
+function validateLicenseCodeOfUser()
+{
     try {
 
+        /*
+         *
+         * write your logic here
+         *
+         * */
+
+        /* return true if user license code  is valid */
+        return redirect()->route('LaravelInstaller::final');
     } catch (Exception $exception) {
         Log::error($exception);
-        return $exception;
+        /* return false if user license code process is failed */
+        return redirect()->back()->with('errors', 'Please entered right details');
     }
 }
 

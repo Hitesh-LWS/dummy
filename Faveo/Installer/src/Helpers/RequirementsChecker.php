@@ -4,7 +4,9 @@ namespace Faveo\Installer\Helpers;
 
 use Exception;
 use Faveo\Installer\Http\Controllers\PHPController;
+use Illuminate\Support\Facades\Log;
 
+require_once __DIR__.'/../script/apl_core_configuration.php';;
 
 class RequirementsChecker
 {
@@ -163,7 +165,6 @@ class RequirementsChecker
                     }
                     break;
 
-
                 case 'allow_url_fopen':
                     if ($this->extensionCheckForm == 'probe') {
                         $this->allowUrlFopen($arrayOfRequisites, $errorCount);
@@ -184,6 +185,7 @@ class RequirementsChecker
             }
             return $arrayOfRequisites;
         } catch (\Exception $e) {
+            Log::error($e);
             throw new Exception($e->getMessage());
         }
 

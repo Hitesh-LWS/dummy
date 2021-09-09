@@ -3,7 +3,6 @@
 
 namespace Faveo\Installer\Helpers;
 
-use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -27,13 +26,13 @@ class UserRegistrationManager
      */
     public function showRegisterView()
     {
-        return view('installer::getting-started-with-admin');
+        return view('installer::registration');
     }
 
     /**
      * write your logic here to get User
      * @param $request
-     * @return Exception
+     * @return bool
      * @author Hitesh Kumar <hitesh.kumar@ladybirdweb.com>
      */
     public function createNewUser($request)

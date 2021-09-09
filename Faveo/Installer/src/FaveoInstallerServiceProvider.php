@@ -15,7 +15,6 @@ class FaveoInstallerServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/resources/views', 'installer');
         $this->loadMigrationsFrom(__DIR__ . 'Database/migrations');
         $router->middlewareGroup('install', [CanInstall::class]);
-        $router->middlewareGroup('update', [CanUpdate::class]);
     }
 
     /**
@@ -63,11 +62,11 @@ class FaveoInstallerServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__ . '/Storage' => base_path('storage'),
-        ],'faveo-installer');
+        ], 'faveo-installer');
 
         $this->publishes([
-            __DIR__ . '/Helpers/functions.php' => base_path('Helpers/functions.php'),
-        ],'faveo-installer');
+            __DIR__ . '/Helpers/functions.php' => app_path('Helpers/functions.php'),
+        ], 'faveo-installer');
 
     }
 }

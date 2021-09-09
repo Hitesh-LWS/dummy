@@ -14,6 +14,6 @@ class UserRegisterRequest extends FormRequest
      * @return array
      */
     public function rules():array{
-        UserRegistrationManager::validationRules();
+       return UserRegistrationManager::validationRules();
     }
 }

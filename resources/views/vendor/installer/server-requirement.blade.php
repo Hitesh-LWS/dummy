@@ -93,24 +93,23 @@
         </table>
     @endforeach
 
-    {{--    <h1>Rewrite Engine</h1>--}}
+    <h1>Rewrite Engine</h1>
 
-    {{--    <table>--}}
-    {{--        <th>--}}
-    {{--        <td>Mod Rewrite</td>--}}
-    {{--        <td>Status</td>--}}
-    {{--        </th>--}}
+    <table>
+        <td>Mod Rewrite</td>
+        <td>Status</td>
+        </th>
 
-    {{--        <tr>--}}
-    {{--            <td>Rewrite Engine</td>--}}
-    {{--            <td>{{$rewriteStatusString}}</td>--}}
-    {{--        </tr>--}}
+        <tr>
+            <td>Rewrite Engine</td>
+            <td>{{$modRewrite['rewriteEngine']}}</td>
+        </tr>
 
-    {{--        <tr>--}}
-    {{--            <td>User Friendly URL</td>--}}
-    {{--            <td>{{$safeUrlString}}</td>--}}
-    {{--        </tr>--}}
-    {{--    </table>--}}
+        <tr>
+            <td>User Friendly URL</td>
+            <td>{{$modRewrite['safeUrl']}}</td>
+        </tr>
+    </table>
 
     @if(\Illuminate\Support\Facades\Session::has('error'))
         <div class="alert alert-success">

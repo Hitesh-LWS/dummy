@@ -32,14 +32,14 @@ Route::group(['prefix' => 'install', 'as' => 'LaravelInstaller::', 'namespace' =
         'uses' => 'DatabaseController@database',
     ]);
 
-    Route::get('/getting-started', [
-        'as' => 'getting-started',
-        'uses' => 'AdminRegistrationController@create',
-    ]);
-
     Route::post('/getting-started', [
         'as' => 'getting-started',
         'uses' => 'AdminRegistrationController@store',
+    ]);
+
+    Route::get('/getting-started', [
+        'as' => 'getting-started',
+        'uses' => 'AdminRegistrationController@create',
     ]);
 
     Route::get('/license-code', [
@@ -52,9 +52,9 @@ Route::group(['prefix' => 'install', 'as' => 'LaravelInstaller::', 'namespace' =
         'uses' => 'FinalController@finish',
     ]);
 
-    Route::get('test', function (){
-        dd(csrf_token());
-    });
+//    Route::get('test', function (){
+//        dd(csrf_token());
+//    });
 
 
 });

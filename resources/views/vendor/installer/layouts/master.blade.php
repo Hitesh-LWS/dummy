@@ -16,8 +16,6 @@
 <body>
 <div class="master">
 
-    {{dd(csrf_token())}}
-
     @yield('container')
 
 </div>

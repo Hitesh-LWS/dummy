@@ -18,6 +18,7 @@
         <p style="color: red">{{\Illuminate\Support\Facades\Session::get('error')}}</p>
     @endif
 
+
     <form action="{{route('LaravelInstaller::environment')}}" method="post">
         @csrf
         <input type="text" name="database_hostname" placeholder="Host">

@@ -44,12 +44,18 @@ class LicenseCodeController extends Controller
 
     /**
      * @param LicenseCodeManager $request
-     * @return \Faveo\Installer\Helpers\Exception
+     * @return Exception|\Faveo\Installer\Helpers\Exception
      * @author Hitesh Kumar <hitesh.kumar@ladybirdweb.com>
      */
     public function store(LicenseCodeManager $request)
     {
         /* main logic to validate license code of your application */
-        return $this->LicenseCodeManager->checkLicenseCode($request);
+        $isRegistered = $this->LicenseCodeManager->checkLicenseCode($request);
+
+        if ($isRegistered) {
+
+        } else {
+
+        }
     }
 }

@@ -12,7 +12,6 @@
             "App\\": "app/"
         },
         "files": [
-            "Faveo/Installer/src/Helpers/functions.php",
             "Faveo/Installer/src/script/apl_core_functions.php"
         ]
     },
