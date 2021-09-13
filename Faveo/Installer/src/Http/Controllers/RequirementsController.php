@@ -56,7 +56,7 @@ class RequirementsController extends Controller
 
         $modRewrite = ['rewriteEngine' => $rewriteStatusString, 'safeUrl' => $safeUrlString];
 
-        return view('installer::server-requirement', compact('permissionBlock', 'requisites', 'phpExtension', 'modRewrite', 'apacheModules'));
+        return view('installer::server-requirement', compact('permissionBlock', 'requisites', 'phpExtension', 'modRewrite', 'apacheModules','errorCount'));
 
     }
 
@@ -76,7 +76,7 @@ class RequirementsController extends Controller
                 curl_setopt($ch, CURLOPT_NOBODY, true);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-                curl_setopt($ch, CURLOPT_ENCODING, '');
+                curl_setopt($ch, CURLOPT_ENCODING, 'gzip');
                 curl_exec($ch);
                 $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                 curl_close($ch);
@@ -99,7 +99,7 @@ class RequirementsController extends Controller
         $url .= $_SERVER['HTTP_HOST'];
         /* Append the requested resource location to the URL   */
         $url .= $_SERVER['REQUEST_URI'];
-        return str_replace('probe.php', 'pre-license', $url);
+        return $url;
     }
 
 

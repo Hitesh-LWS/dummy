@@ -15,9 +15,9 @@
         Permission Block
     </H1>
 
-    @php
-        $errorCount=0;
-    @endphp
+    @if(\Illuminate\Support\Facades\Session::has('errors'))
+        <h1 style="color: red">{{\Illuminate\Support\Facades\Session::get('errors')}}</h1>
+    @endif
 
     @foreach($permissionBlock as $permission)
         <table>
@@ -111,16 +111,8 @@
         </tr>
     </table>
 
-    @if(\Illuminate\Support\Facades\Session::has('error'))
-        <div class="alert alert-success">
-            <ul>
-                <li>{!! \Session::get('error') !!}</li>
-            </ul>
-        </div>
-    @endif
 
     <form action="{{route('LaravelInstaller::license-agreement')}}" method="get">
-        @csrf
         <input name="server_requirement_error" hidden value="{{$errorCount}}">
         <button class="btn" type="submit">Submit</button>
     </form>
