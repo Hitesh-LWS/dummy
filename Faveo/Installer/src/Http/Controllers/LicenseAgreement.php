@@ -22,14 +22,18 @@ class LicenseAgreement extends Controller
     public function licenseAgreement(Request $request)
     {
         try {
-            $errors = $request->server_requirement_error;
-            if ($errors == '0' || $errors == 0) {
-                /* all requirements are matched now show license agreement */
-                return \view('installer::license-agreement', compact('errors'));
-            } else {
-                /* error found requirement not fulfill */
-                return redirect()->back()->with('errors', 'Not getting all server requirement');
-            }
+            $errors=0;
+
+            return \view('installer::license-agreement', compact('errors'));
+
+//            $errors = $request->server_requirement_error;
+//            if ($errors == '0' || $errors == 0) {
+//                /* all requirements are matched now show license agreement */
+//                return \view('installer::license-agreement', compact('errors'));
+//            } else {
+//                /* error found requirement not fulfill */
+//                return redirect()->back()->with('errors', 'Not getting all server requirement');
+//            }
         } catch (\Exception $exception) {
             Log::error($exception);
             return redirect()->back()->with(['errors' => $exception->getMessage()]);
