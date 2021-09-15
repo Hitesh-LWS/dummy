@@ -1,64 +1,96 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+<h1 style="color: #0d6aad">Faveo Installer</h1>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+<h3>About</h3>
+
+<p>Do you want your client to be able to install a Laravel project with great User interface and user experience.
+This installer allows users to create a wizard for user to show and take requirement to create a environment setup on user machine.
 </p>
 
-## About Laravel
+<h3>How it works :</h3>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1. Check Server Requirements
+2. License Agreement
+3. Setup Database (setup .env , migrations and seed the tables).
+4. User Registration (Optional) You can handle it according to application requirement you can make it mandatory step
+   through config/installer.php
+5. License Code (optional)
+6. Finalise Step (Setting up things for you local machine).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<h3>Installation Process :</h3>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. Composer require
 
-## Learning Laravel
+2. Register the package
+    - You have to register the package service provider into the “config/app.php” under providers with the following:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+     <code> ‘providers’=>[
+      Faveo\Installer\FaveoInstallerServiceProvider::class
+      ]
+   </code>
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+3. Publish the packages views, config file, assets, and language files by running the following from your projects root
+   folders.
 
-## Laravel Sponsors
+    <code>
+   php artisan vendor:publish —tag=faveo-installer
+    </code>
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+<h3>Routes</h3>
 
-### Premium Partners
+Just start your application with <code>{{base-url}}/install</code> routes.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
+- In order to install your application, go to the install route and follow the instruction
+- Once the installation has ran the empty file installed will be placed into the /storage directory if this file is
+  present the route /install will abort to the page 404.
 
-## Contributing
+<h3>Custom Code Implementation Of User Registration and License Code</h3>
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+<p>After installation you can create your own user registration process and also form validation in it. While your
+installation part completed you can found the helper class in app/Helpers/function.php where you can find user
+registration validation function you can just pass the array of validation to it for validate each request form. The
+name of function is “validationForCreateUserInstaller” and same “createUserForInstaller” function for user registration
+process logic.</p>
+<code>
 
-## Code of Conduct
+	// user registration form validation 
+	function validationForCreateUserInstaller(){
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+		// write user registration form validation in array type 
+	return [];
+	}
 
-## Security Vulnerabilities
+	// User registration logic
+	function createUserForInstaller(){
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+		// write user registration logic here  
+	return [];
+	}
 
-## License
+</code>
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+<p>Now, the same for license code of application we have also two function for validate license key and activate the
+license code in application.</p>
+<code>
+
+    // license code validation check
+    function validationRulesForLicenseCode(){
+		// write license code form validation in array type 
+	return [];
+	}
+
+	// Validate license code  logic 
+	function validateLicenseCodeOfUser(){
+		// write license code  to check valid or not  license key
+	return [];
+	}
+
+</code>
+
+
+<h3>Change View of Installation process</h3>
+
+<p>You can easily change the Blade file each and every step has its own blade file of Laravel so you can customise the view
+according to your application in <code>resources/views/vendor/installer</code> directory.
+</p>
+
+
