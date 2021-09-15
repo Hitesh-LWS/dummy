@@ -134,8 +134,6 @@ class EnvironmentManager
             'MAIL_PORT=' . '2525' . "\n" .
             'MAIL_USERNAME=' . 'null' . "\n" .
             'MAIL_PASSWORD=' . 'null' . "\n" .
-            'IS_USER_REGISTRATION_ENABLED=' . 'true' . "\n" .
-            'IS_LICENSE_CODE_ENABLED=' . 'true' . "\n" .
             'CACHE_DRIVER=' . 'file' . "\n" .
             'SESSION_DRIVER=' . 'file' . "\n" .
             'SESSION_COOKIE_NAME=' . 'faveo_' . rand(0, 10000) . "\n" .

@@ -33,9 +33,8 @@ class FinalController extends Controller
 
             event(new LaravelInstallerFinished());
 
-//            return view('installer::finished', compact('finalMessages', 'finalStatusMessage', 'finalEnvFile'));
+            return view('installer::finalise-installer', compact('finalMessages', 'finalStatusMessage', 'finalEnvFile'));
 
-            return 'Installation has been done. '.$finalMessages.' '.$finalEnvFile.' '.$finalStatusMessage;
         } catch (\Exception $exception) {
             Log::error($exception);
             return back()->with('error', $exception->getMessage());

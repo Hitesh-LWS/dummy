@@ -45,8 +45,6 @@ class EnvironmentController extends Controller
      */
     public function dbSetup(Request $request)
     {
-//        $envConfig = $this->EnvironmentManager->getEnvContent();
-
         $validator = validator()->make(request()->all(), [
             'is_accept' => 'required|boolean',
         ]);
@@ -108,7 +106,6 @@ class EnvironmentController extends Controller
             return redirect()->route('LaravelInstaller::getting-started')
                 ->with(['message' => $response]);
 
-//            return \view('installer::getting-started-with-admin');
         } catch (Exception $exception) {
             Log::error($exception);
             return $exception->getMessage();

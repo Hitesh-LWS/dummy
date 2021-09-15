@@ -3,7 +3,6 @@
 namespace Faveo\Installer;
 
 use Faveo\Installer\Http\Middleware\CanInstall;
-use Faveo\Installer\Http\Middleware\CanUpdate;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 
@@ -12,9 +11,9 @@ class FaveoInstallerServiceProvider extends ServiceProvider
     public function boot(Router $router)
     {
         $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
+        $router->middlewareGroup('install', [CanInstall::class]);
         $this->loadViewsFrom(__DIR__ . '/resources/views', 'installer');
         $this->loadMigrationsFrom(__DIR__ . 'Database/migrations');
-        $router->middlewareGroup('install', [CanInstall::class]);
     }
 
     /**

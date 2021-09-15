@@ -50,12 +50,6 @@ class LicenseCodeController extends Controller
     public function store(LicenseCodeManager $request)
     {
         /* main logic to validate license code of your application */
-        $isRegistered = $this->LicenseCodeManager->checkLicenseCode($request);
-
-        if ($isRegistered) {
-
-        } else {
-
-        }
+        $this->LicenseCodeManager->checkLicenseCode($request);
     }
 }
