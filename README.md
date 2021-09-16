@@ -18,7 +18,7 @@ This installer allows users to create a wizard for user to show and take require
 
 <h3>Installation Process :</h3>
 
-1. Composer require
+1. <code>composer require faveo/installer</code>
 
 2. Register the package
     - You have to register the package service provider into the “config/app.php” under providers with the following:
@@ -35,6 +35,29 @@ This installer allows users to create a wizard for user to show and take require
    php artisan vendor:publish —tag=faveo-installer
     </code>
 
+<h3>Config Changes for optional features</h3>
+<p>We have user registration and license code validation steps is optional you can 
+make it required by change environment variables values to true or define these values in <code>.env</code> file.
+</p>
+
+<p>Go to <code>config/installer.php</code> file and change default values to true</p>
+
+Using config changes:
+
+<code> 
+
+    'is_user_registration_enabled' => env('IS_USER_REGISTRATION_ENABLED',true)
+    'is_license_code_enabled' => env('IS_LICENSE_CODE_ENABLED', true)
+</code>
+
+or, You can add these variable in .env
+
+<code>
+IS_USER_REGISTRATION_ENABLED=true
+
+IS_LICENSE_CODE_ENABLED=true
+</code>
+
 <h3>Routes</h3>
 
 Just start your application with <code>{{base-url}}/install</code> routes.
@@ -42,11 +65,11 @@ Just start your application with <code>{{base-url}}/install</code> routes.
 - In order to install your application, go to the install route and follow the instruction
 - Once the installation has ran the empty file installed will be placed into the /storage directory if this file is
   present the route /install will abort to the page 404.
-
+  
 <h3>Custom Code Implementation Of User Registration and License Code</h3>
 
 <p>After installation you can create your own user registration process and also form validation in it. While your
-installation part completed you can found the helper class in app/Helpers/function.php where you can find user
+installation part completed you can found the helper class in<code>app/Helpers/function.php</code>  where you can find user
 registration validation function you can just pass the array of validation to it for validate each request form. The
 name of function is “validationForCreateUserInstaller” and same “createUserForInstaller” function for user registration
 process logic.</p>
