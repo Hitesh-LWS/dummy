@@ -33,14 +33,13 @@ class DatabaseManager
     private function migrate(BufferedOutput $outputLog)
     {
         try {
-            Artisan::call('config:cache');
+//            Artisan::call('config:cache');
             Artisan::call('migrate', ['--force' => true], $outputLog);
+            return $this->seed($outputLog);
         } catch (Exception $e) {
             Log::error($e);
             return $this->response($e->getMessage(), 'error', $outputLog);
         }
-
-        return $this->seed($outputLog);
     }
 
     /**
@@ -86,7 +85,7 @@ class DatabaseManager
     private function sqlite(BufferedOutput $outputLog)
     {
         try {
-            Artisan::call('config:cache');
+//            Artisan::call('config:cache');
             if (DB::connection() instanceof SQLiteConnection) {
                 $database = DB::connection()->getDatabaseName();
                 if (!file_exists($database)) {

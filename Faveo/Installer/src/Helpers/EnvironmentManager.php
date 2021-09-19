@@ -5,6 +5,7 @@ namespace Faveo\Installer\Helpers;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class EnvironmentManager
@@ -160,8 +161,11 @@ class EnvironmentManager
 
         try {
             file_put_contents($this->envPath, $envFileData);
-            Artisan::call('config:cache');
+            if ($_SERVER['APP_ENV'] != 'testing') {
+                Artisan::call('config:cache');
+            }
         } catch (Exception $e) {
+            Log::error($e);
             $results = trans('installer_messages.environment.errors');
         }
 

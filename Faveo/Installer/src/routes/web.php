@@ -1,5 +1,6 @@
 <?php
 
+
 Route::group(['prefix' => 'install', 'as' => 'LaravelInstaller::', 'namespace' => 'Faveo\Installer\Http\Controllers', 'middleware' => ['web', 'install']], function () {
 
     Route::get('/', [
@@ -7,12 +8,7 @@ Route::group(['prefix' => 'install', 'as' => 'LaravelInstaller::', 'namespace' =
         'uses' => 'RequirementsController@requirements',
     ]);
 
-    Route::get('/index', [
-        'as' => 'license-agreement',
-        'uses' => 'LicenseAgreement@index',
-    ]);
-
-    Route::get('license-agreement', [
+    Route::post('license-agreement', [
         'as' => 'license-agreement',
         'uses' => 'LicenseAgreement@licenseAgreement',
     ]);
@@ -27,10 +23,10 @@ Route::group(['prefix' => 'install', 'as' => 'LaravelInstaller::', 'namespace' =
         'uses' => 'EnvironmentController@saveEnviornmentDetails',
     ]);
 
-    Route::get('database', [
-        'as' => 'database',
-        'uses' => 'DatabaseController@database',
-    ]);
+//    Route::get('database', [
+//        'as' => 'database',
+//        'uses' => 'DatabaseController@database',
+//    ]);
 
     Route::post('/getting-started', [
         'as' => 'getting-started',
@@ -38,13 +34,18 @@ Route::group(['prefix' => 'install', 'as' => 'LaravelInstaller::', 'namespace' =
     ]);
 
     Route::get('/getting-started', [
-        'as' => 'getting-started',
+        'as' => 'register',
         'uses' => 'AdminRegistrationController@create',
     ]);
 
     Route::get('/license-code', [
         'as' => 'license-code',
         'uses' => 'LicenseCodeController@create',
+    ]);
+
+   Route::post('/license-code', [
+        'as' => 'license-code',
+        'uses' => 'LicenseCodeController@store',
     ]);
 
     Route::get('final', [

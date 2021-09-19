@@ -90,8 +90,10 @@ class EnvironmentController extends Controller
             $port = $request->database_port;
 
             /* check database connection is setup or not */
-            if (!$this->checkDatabaseConnection($connection, $dbHost, $port, $dbName, $username, $password)) {
-                return $redirect->back()->with('error', 'Unable to connect with database');
+            $dbConnection = $this->checkDatabaseConnection($connection, $dbHost, $port, $dbName, $username, $password);
+
+            if (!$dbConnection['status']) {
+                return $redirect->back()->with('error', $dbConnection['message']);
             }
 
             /* save environment constant in file*/
@@ -102,10 +104,7 @@ class EnvironmentController extends Controller
             /* migrate and seed the data */
             $response = $this->DatabaseManager->migrateAndSeed();
 
-            /* redirect to next step getting started with admin registration */
-            return redirect()->route('LaravelInstaller::getting-started')
-                ->with(['message' => $response]);
-
+            return app('redirect')->route('LaravelInstaller::register')->with('message', $response);
         } catch (Exception $exception) {
             Log::error($exception);
             return $exception->getMessage();
@@ -117,7 +116,7 @@ class EnvironmentController extends Controller
      * Validate database connection with user credentials (Form Wizard).
      *
      * @param Request $request
-     * @return bool
+     * @return array
      */
     private function checkDatabaseConnection($connection, $host, $port, $database, $dbusername, $dbpassword)
     {
@@ -148,9 +147,11 @@ class EnvironmentController extends Controller
 
         try {
             DB::connection()->getPdo();
-            return true;
+            return ['status' => true,
+                'message' => 'Connection Setup Successfully'];
         } catch (Exception $e) {
-            return false;
+            return ['status' => false,
+                'message' => $e->getMessage()];
         }
     }
 }

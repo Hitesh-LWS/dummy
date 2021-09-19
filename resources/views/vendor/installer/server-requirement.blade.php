@@ -1,4 +1,4 @@
-@extends('vendor.installer.layouts.master')
+@extends('installer::layouts.master')
 
 @section('template_title')
     {{ trans('installer_messages.requirements.templateTitle')??'Server Requirements' }}
@@ -15,8 +15,8 @@
         Permission Block
     </H1>
 
-    @if(\Illuminate\Support\Facades\Session::has('errors'))
-        <h1 style="color: red">{{\Illuminate\Support\Facades\Session::get('errors')}}</h1>
+    @if(\Illuminate\Support\Facades\Session::has('error'))
+        <h1 style="color: red">{{\Illuminate\Support\Facades\Session::get('error')}}</h1>
     @endif
 
     @foreach($permissionBlock as $permission)
@@ -111,8 +111,8 @@
         </tr>
     </table>
 
-
-    <form action="{{route('LaravelInstaller::license-agreement')}}" method="get">
+    <form action="{{route('LaravelInstaller::license-agreement')}}" method="post">
+        @csrf
         <input name="server_requirement_error" hidden value="{{$errorCount}}">
         <button class="btn" type="submit">Submit</button>
     </form>

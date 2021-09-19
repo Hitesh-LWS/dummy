@@ -39,15 +39,15 @@ class AdminRegistrationController extends Controller
             /* this feature is not enabled */
             return redirect()->route('LaravelInstaller::license-code');
         }
-
         /* return view if this feature is enabled */
         return $this->UserRegistrationManager->showRegisterView();
+
     }
 
     /**
      * store user data
      * @param UserRegisterRequest $request
-     * @return bool
+     * @return RedirectResponse|void
      * @author Hitesh Kumar <hitesh.kumar@ladybirdweb.com>
      */
     public function store(UserRegisterRequest $request)

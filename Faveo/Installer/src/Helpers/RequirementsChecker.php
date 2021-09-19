@@ -36,7 +36,12 @@ class RequirementsChecker
      */
     private function getDependenciesJson()
     {
-        return file_get_contents(storage_path('faveo-dependencies.json'));
+        /*
+         * storage_path is not working while you test with custom package or service provider
+         *
+         * */
+       return file_get_contents('/Applications/XAMPP/xamppfiles/htdocs/package/Faveo/Installer/src/Storage/faveo-dependencies.json');
+//        return file_get_contents(storage_path('faveo-dependencies.json'))??null;
     }
 
 

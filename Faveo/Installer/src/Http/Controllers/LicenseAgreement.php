@@ -31,13 +31,12 @@ class LicenseAgreement extends Controller
                 return \view('installer::license-agreement', compact('errors'));
             } else {
                 /* error found requirement not fulfill */
-                return redirect()->back()->with('errors', 'Not getting all server requirement');
+                return redirect()->back()->with('error', 'Not getting all server requirement');
             }
         } catch (\Exception $exception) {
             Log::error($exception);
-            return redirect()->back()->with(['errors' => $exception->getMessage()]);
+            return redirect()->back()->with(['error' => $exception->getMessage()]);
         }
-
     }
 
 }

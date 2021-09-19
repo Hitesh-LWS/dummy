@@ -6,6 +6,7 @@ namespace Faveo\Installer\Helpers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class UserRegistrationManager
 {
@@ -32,7 +33,7 @@ class UserRegistrationManager
     /**
      * write your logic here to get User
      * @param $request
-     * @return bool
+     * @return RedirectResponse|void
      * @author Hitesh Kumar <hitesh.kumar@ladybirdweb.com>
      */
     public function createNewUser($request)

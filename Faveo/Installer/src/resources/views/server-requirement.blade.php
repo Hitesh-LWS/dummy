@@ -1,4 +1,4 @@
-@extends('vendor.installer.layouts.master')
+@extends('installer::layouts.master')
 
 @section('template_title')
     {{ trans('installer_messages.requirements.templateTitle')??'Server Requirements' }}
@@ -15,9 +15,9 @@
         Permission Block
     </H1>
 
-    @php
-        $errorCount=0;
-    @endphp
+    @if(\Illuminate\Support\Facades\Session::has('errors'))
+        <h1 style="color: red">{{\Illuminate\Support\Facades\Session::get('errors')}}</h1>
+    @endif
 
     @foreach($permissionBlock as $permission)
         <table>
@@ -93,34 +93,25 @@
         </table>
     @endforeach
 
-    {{--    <h1>Rewrite Engine</h1>--}}
+    <h1>Rewrite Engine</h1>
 
-    {{--    <table>--}}
-    {{--        <th>--}}
-    {{--        <td>Mod Rewrite</td>--}}
-    {{--        <td>Status</td>--}}
-    {{--        </th>--}}
+    <table>
+        <td>Mod Rewrite</td>
+        <td>Status</td>
+        </th>
 
-    {{--        <tr>--}}
-    {{--            <td>Rewrite Engine</td>--}}
-    {{--            <td>{{$rewriteStatusString}}</td>--}}
-    {{--        </tr>--}}
+        <tr>
+            <td>Rewrite Engine</td>
+            <td>{{$modRewrite['rewriteEngine']}}</td>
+        </tr>
 
-    {{--        <tr>--}}
-    {{--            <td>User Friendly URL</td>--}}
-    {{--            <td>{{$safeUrlString}}</td>--}}
-    {{--        </tr>--}}
-    {{--    </table>--}}
+        <tr>
+            <td>User Friendly URL</td>
+            <td>{{$modRewrite['safeUrl']}}</td>
+        </tr>
+    </table>
 
-    @if(\Illuminate\Support\Facades\Session::has('error'))
-        <div class="alert alert-success">
-            <ul>
-                <li>{!! \Session::get('error') !!}</li>
-            </ul>
-        </div>
-    @endif
-
-    <form action="{{route('LaravelInstaller::license-agreement')}}" method="get">
+    <form action="{{route('LaravelInstaller::license-agreement')}}" method="post">
         @csrf
         <input name="server_requirement_error" hidden value="{{$errorCount}}">
         <button class="btn" type="submit">Submit</button>

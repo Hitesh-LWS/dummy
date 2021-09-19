@@ -3,76 +3,107 @@
 namespace Tests\Unit;
 
 use Faveo\Installer\FaveoInstallerServiceProvider;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Routing\RouteCollection;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Route;
-use Tests\TestCase;
-use \Illuminate\Container\Container as Container;
-use \Illuminate\Support\Facades\Facade as Facade;
+use Orchestra\Testbench\TestCase;
 
 class InstallerTest extends TestCase
 {
-    use RefreshDatabase;
-
-    protected function setUp(): void
+    /**
+     * @param \Illuminate\Foundation\Application $app
+     * @return string[]
+     */
+    protected function getPackageProviders($app)
     {
-
-//        $app = new Container();
-//        $app->singleton('app', 'Illuminate\Container\Container');
-//
-//        /**
-//         * Set $app as FacadeApplication handler
-//         */
-//        Facade::setFacadeApplication($app);
-//
-
-        //use this to find out which plugin is running and activate that plugin
-        $childClassNamespace = get_class($this);
-
-        $addOnName = explode("\\", $childClassNamespace)[1];
-
-        $providerRoot = '\App';
-
-        $providerClassName = $addOnName.'ServiceProvider';
-
-        /*
-         * @todo Define a concrete and single structure for writing ServiceProviders for
-         * custom modules and Plugins so that the code snippet here can be simplified.
-         */
-        if(strpos($childClassNamespace, 'Plugin')){
-            $addOnName = explode("\\", $childClassNamespace)[2];
-            $providerRoot = '\App\Plugins';
-            $providerClassName = 'ServiceProvider';
-        }
-
-        //resetting routes because of conflicts between vue routes. It must be removed once that is sorted
-        Route::setRoutes(new RouteCollection);
-
-        //registering plugin routes before web routes
-        App::register($providerRoot.'\\'.$addOnName.'\\'.$providerClassName);
-
-        Route::group(['middleware' => 'web','namespace' => '\App\Http\Controllers'], function ($router) {
-            require base_path('routes/web.php');
-        });
+        return [
+            FaveoInstallerServiceProvider::class,
+        ];
     }
 
     /**
-     * A basic unit test example.
-     *
-     * @return void
+     * test view of server requirement
+     * @author Hitesh Kumar <Hitesh.kumar@ladybirdweb.com>
      */
-    public function test_example()
-    {
-        $this->assertTrue(true);
-    }
-
-    public function test_server_requirements()
+    public function test_server_requirement_for_application()
     {
         $this->withoutExceptionHandling();
-        $this->call('GET', 'install')
-            ->assertViewIs('vendor.layouts.server-requirement')
-            ->assertViewHas('permissionBlock', 'requisites');
+        $response = $this->get('install');
+
+        $response->assertStatus(200)
+            ->assertViewIs('installer::server-requirement')
+            ->assertViewHas(['permissionBlock', 'requisites', 'phpExtension', 'modRewrite', 'apacheModules', 'errorCount']);
+    }
+
+    /**
+     * test while some requirement doesn't matched of user system
+     * @author Hitesh Kumar <Hitesh.kumar@ladybirdweb.com>
+     */
+//    public function test_server_requirement_doesnt_match()
+//    {
+//        $this->withoutExceptionHandling();
+//        $response = $this->call('post', route('LaravelInstaller::license-agreement'), [
+//            'server_requirement_error' => 1
+//        ]);
+//
+//        $response->assertStatus(302)
+//            ->assertRedirect('/')
+//            ->assertSessionHas('error');
+//    }
+
+    /**
+     * test while all requirement matched of user and no error found
+     * @author Hitesh Kumar <Hitesh.kumar@ladybirdweb.com>
+     */
+    public function test_server_requirement_fulfill()
+    {
+        $response = $this->call('post', route('LaravelInstaller::license-agreement'), [
+            'server_requirement_error' => 0
+        ]);
+
+        $response->assertStatus(200)
+            ->assertViewIs('installer::license-agreement')
+            ->assertViewHas('errors');
+    }
+
+    /**
+     * test while request param validation failed in the license agreement
+     * @author Hitesh Kumar <Hitesh.kumar@ladybirdweb.com>
+     */
+    public function test_license_agreement_conditions_is_accepted_validation_error()
+    {
+        $response = $this->call('get', route('LaravelInstaller::environment'), [
+            'is_accept' => 3 /* required only boolean type value*/
+        ]);
+
+        $response->assertStatus(302)
+            ->assertSessionHas('error');
+    }
+
+    /**
+     * test while user not accepted the license agreement
+     * @author Hitesh Kumar <Hitesh.kumar@ladybirdweb.com>
+     */
+    public function test_license_agreement_condition_is_not_accepted()
+    {
+        $response = $this->call('get', route('LaravelInstaller::environment'), [
+            'is_accept' => false
+        ]);
+
+        $response->assertStatus(302)
+            ->assertRedirect('/')
+            ->assertSessionHas('error');
+    }
+
+    /**
+     * test while user successfully accepted the license agreement
+     * @author Hitesh Kumar <Hitesh.kumar@ladybirdweb.com>
+     */
+    public function test_successfully_accepted_the_license_agreement()
+    {
+        $response = $this->call('get', route('LaravelInstaller::environment'), [
+            'is_accept' => true
+        ]);
+
+        $response->assertStatus(200)
+            ->assertViewIs('installer::database-setup');
     }
 
 }

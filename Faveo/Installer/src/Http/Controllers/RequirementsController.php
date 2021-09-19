@@ -8,6 +8,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\View;
 
 class RequirementsController extends Controller
 {
@@ -56,8 +57,7 @@ class RequirementsController extends Controller
 
         $modRewrite = ['rewriteEngine' => $rewriteStatusString, 'safeUrl' => $safeUrlString];
 
-        return view('installer::server-requirement', compact('permissionBlock', 'requisites', 'phpExtension', 'modRewrite', 'apacheModules','errorCount'));
-
+        return View::make('installer::server-requirement',compact('permissionBlock', 'requisites', 'phpExtension', 'modRewrite', 'apacheModules', 'errorCount'));
     }
 
 
@@ -91,6 +91,10 @@ class RequirementsController extends Controller
 
     private function getLicenseUrl()
     {
+        if (env('APP_ENV') == 'testing') {
+            return 'https://localhost/package/public/';
+        }
+
         if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')
             $url = "https://";
         else
