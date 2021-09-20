@@ -4,7 +4,6 @@
 namespace Faveo\Installer\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Exception;
 use Faveo\Installer\Helpers\UserRegistrationManager;
 use Faveo\Installer\Http\Requests\UserRegisterRequest;
 use Illuminate\Contracts\Foundation\Application;

@@ -23,10 +23,10 @@ Route::group(['prefix' => 'install', 'as' => 'LaravelInstaller::', 'namespace' =
         'uses' => 'EnvironmentController@saveEnviornmentDetails',
     ]);
 
-//    Route::get('database', [
-//        'as' => 'database',
-//        'uses' => 'DatabaseController@database',
-//    ]);
+    Route::get('database', [
+        'as' => 'database',
+        'uses' => 'DatabaseController@database',
+    ]);
 
     Route::post('/getting-started', [
         'as' => 'getting-started',
@@ -43,7 +43,7 @@ Route::group(['prefix' => 'install', 'as' => 'LaravelInstaller::', 'namespace' =
         'uses' => 'LicenseCodeController@create',
     ]);
 
-   Route::post('/license-code', [
+    Route::post('/license-code', [
         'as' => 'license-code',
         'uses' => 'LicenseCodeController@store',
     ]);
